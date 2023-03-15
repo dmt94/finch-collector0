@@ -1,9 +1,9 @@
 from django.shortcuts import render
 
-finches = [
-  {'name': 'Leo', 'breed': 'finch1', 'description': 'fun bird'},
-  {'name': 'Luna', 'breed': 'finch2', 'description': 'chill bird'},
-  ]
+# finches = [
+#   {'name': 'Leo', 'breed': 'finch1', 'description': 'fun bird'},
+#   {'name': 'Luna', 'breed': 'finch2', 'description': 'chill bird'},
+#   ]
 
 # Create your views here.
 def home(request):
