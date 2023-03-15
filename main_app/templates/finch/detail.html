@@ -8,6 +8,10 @@
     <span class="card-title">{{ finch.name }}</span>
     <p>Breed: {{ finch.breed }}</p>
     <p>Description: {{ finch.description|linebreaks }}</p>
+    <div class="card-action">
+      <a href="{% url 'finch_update' finch.id %}">Edit</a>
+      <a href="{% url 'finch_delete' finch.id %}">Delete</a>
+    </div>
   </div>
 </div>
 
