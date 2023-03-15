@@ -1,9 +1,5 @@
 from django.shortcuts import render
-
-# finches = [
-#   {'name': 'Leo', 'breed': 'finch1', 'description': 'fun bird'},
-#   {'name': 'Luna', 'breed': 'finch2', 'description': 'chill bird'},
-#   ]
+from .models import Finch
 
 # Create your views here.
 def home(request):
@@ -15,6 +11,13 @@ def about(request):
 # Add new view
 def finch_index(request):
   # We pass data to a template very much like we did in Express!
+  finches = Finch.objects.all()
   return render(request, 'finch/index.html', {
     'finches': finches
+  })
+
+def finch_detail(request, finch_id):
+  finch = Finch.objects.get(id=finch_id)
+  return render(request, 'finch/detail.html', {
+    'finch': finch
   })
