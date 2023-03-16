@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Finch
 from .forms import FeedingForm
@@ -41,3 +41,15 @@ class FinchDelete(DeleteView):
   model = Finch
   success_url = '/finches'
   fields = ['name', 'breed', 'description']
+
+def add_feeding(request, finch_id):
+  # create a ModelForm instance using the data tht was submitted in the form
+  form = FeedingForm(request.POST)
+  #validate the form
+  if form.is_valid():
+    # we want a model instance, but
+    # we cant save to the db bc we have not assigned the finch_id FK
+    new_feeding = form.save(commit=False)
+    new_feeding.finch_id = finch_id
+    new_feeding.save()
+  return redirect('detail', finch_id=finch_id)
