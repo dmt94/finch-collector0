@@ -22,17 +22,25 @@ def finch_index(request):
 
 def finch_detail(request, finch_id):
   finch = Finch.objects.get(id=finch_id)
+  # Get the toys the finch doesn't have...
+  # First, create a list of the toy ids that the finch DOES have
+  id_list = finch.toys.all().values_list('id')
+  # Now we can query for toys whose ids are not in the list using exclude
+  toys_cat_doesnt_have = Toy.objects.exclude(id__in=id_list)
+  
   #instantiate FeedingForm to be rendered in detail.html
   feeding_form = FeedingForm()
   #"context" is what the dict -> template to be rendered
   return render(request, 'finch/detail.html', {
     'finch': finch,
-    'feeding_form': feeding_form
+    'feeding_form': feeding_form,
+    # Add the toys to be displayed
+    'toys': toys_cat_doesnt_have
   })
 
 class FinchCreate(CreateView):
   model = Finch
-  fields = '__all__'
+  fields = ['name', 'breed', 'description']
 
 class FinchUpdate(UpdateView):
   model = Finch
@@ -73,3 +81,13 @@ class ToyUpdate(UpdateView):
 class ToyDelete(DeleteView):
   model = Toy
   success_url = '/toys'
+
+def assoc_toy(request, finch_id, toy_id):
+  # Note that you can pass a toy's id instead of the whole toy object
+  Finch.objects.get(id=finch_id).toys.add(toy_id)
+  return redirect('detail', finch_id=finch_id)
+
+def unassoc_toy(request, finch_id, toy_id):
+  # Note that you can pass a toy's id instead of the whole toy object
+  Finch.objects.get(id=finch_id).toys.remove(toy_id)
+  return redirect('detail', finch_id=finch_id)
