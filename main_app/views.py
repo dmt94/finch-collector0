@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Finch
+from .forms import FeedingForm
 
 # Create your views here.
 def home(request):
@@ -19,8 +20,12 @@ def finch_index(request):
 
 def finch_detail(request, finch_id):
   finch = Finch.objects.get(id=finch_id)
+  #instantiate FeedingForm to be rendered in detail.html
+  feeding_form = FeedingForm()
+  #"context" is what the dict -> template to be rendered
   return render(request, 'finch/detail.html', {
-    'finch': finch
+    'finch': finch,
+    'feeding_form': feeding_form
   })
 
 class FinchCreate(CreateView):
