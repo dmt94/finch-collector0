@@ -17,3 +17,11 @@ footer.page-footer {
 button:hover {
   opacity: 0.8
 }
+
+h1,
+h3,
+.card-title,
+.card-panel,
+.card-content p {
+  text-transform: capitalize;
+}
